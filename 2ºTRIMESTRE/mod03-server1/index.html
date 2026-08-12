@@ -1,13 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftWorld | Seu Portal de Minecraft</title>
+    <style>
+        /* RESET DE ESTILOS */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background-color: #141414;
+            color: #f5f5f5;
+            /* Fontes monospace nativas simulando o estilo pixelado do jogo */
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* BARRA DE NAVEGAÇÃO */
+        header {
+            background-color: #0f0f0f;
+            border-bottom: 5px solid #1e3a1e;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: #a1a1aa;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-left: 1.5rem;
+            padding-bottom: 4px;
+            transition: all 0.2s;
+        }
+
+        nav a.active, nav a:hover { 
+            color: #4ade80;
+            border-bottom: 3px solid #22c55e;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        main {
+            max-width: 1050px;
+            margin: auto;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            main { 
+                flex-direction: row; 
+                text-align: left; 
+            }
+        }
+
+        .content-box { 
+            flex: 1; 
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #1b431b;
+            color: #4ade80;
+            border: 2px solid #22c55e;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        h2 { 
+            font-size: 2.6rem; 
+            color: #ffffff; 
+            line-height: 1.2; 
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        h2 span { 
+            color: #22c55e; 
+            background-color: #1c2e1c;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+
+        p { 
+            color: #cccccc; 
+            font-size: 1.1rem; 
+            line-height: 1.6; 
+            margin-bottom: 2.5rem; 
+        }
+
+        /* BOTÃO ESTILO MINECRAFT (3D QUADRADO) */
+        .btn-craft {
+            display: inline-block;
+            background-color: #4a4a4a;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+            text-transform: uppercase;
+            border: 3px solid #111111;
+            border-bottom: 6px solid #262626;
+            border-right: 6px solid #262626;
+            cursor: pointer;
+            transition: none;
+        }
+
+        .btn-craft:hover { 
+            background-color: #2e6f40; 
+            border-bottom-color: #173720;
+            border-right-color: #173720;
+        }
+
+        .btn-craft:active { 
+            transform: translate(3px, 3px); 
+            border-bottom-width: 3px;
+            border-right-width: 3px;
+        }
+
+        /* CARD DO CENÁRIO (CONSTRUÍDO TOTALMENTE VIA CSS SEM IMAGENS EXTERNAS) */
+        .image-box { 
+            flex: 1; 
+            max-width: 400px; 
+            width: 100%; 
+        }
+
+        .card {
+            background-color: #1a1a1a;
+            border: 5px solid #4a4a4a;
+            padding: 0.6rem;
+            position: relative;
+            box-shadow: 8px 8px 0px #000000;
+        }
+
+        /* Arte Digital em CSS puro imitando Blocos, Grama e o Céu do Minecraft */
+        .minecraft-art {
+            width: 100%;
+            height: 300px;
+            border: 3px solid #111111;
+            background: 
+                /* Grama do topo */
+                linear-gradient(to bottom, #4ade80 0%, #22c55e 25%, #15803d 25%, #15803d 35%, transparent 35%),
+                /* Blocos de terra inferiores */
+                linear-gradient(to right, #78350f 0%, #78350f 50%, #451a03 50%, #451a03 100%);
+            background-size: 100% 100%, 40px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Nuvem pixelada flutuando no cenário */
+        .minecraft-art::before {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: 120px;
+            height: 40px;
+            background-color: #ffffff;
+            box-shadow: 40px 20px 0 #ffffff, -20px 10px 0 #e4e4e7;
+        }
+
+        /* Sol quadrado clássico do Minecraft */
+        .minecraft-art::after {
+            content: "";
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #fef08a;
+            box-shadow: 0 0 0 6px #facc15;
+        }
+
+        .card-caption {
+            position: absolute;
+            bottom: -20px; 
+            left: 20px; 
+            right: 20px;
+            background-color: #111111;
+            border: 3px solid #4a4a4a;
+            padding: 0.8rem;
+            text-align: left;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .caption-tag { 
+            color: #4ade80; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            margin-bottom: 0.3rem; 
+        }
+
+        .caption-text { 
+            color: #e4e4e7; 
+            font-size: 0.9rem; 
+        }
+
+        /* RODAPÉ */
+        footer {
+            background-color: #0f0f0f;
+            border-top: 3px solid #222222;
+            padding: 1.8rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555555;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h3>pagina inicia</h3>
-    <p>ola, voce esta em casa!</p>
-    <a href="/sobre">ir para sobre</a>   
+
+    <!-- Header / Barra de Navegação -->
+    <header>
+        <div class="logo">■ CRAFTWORLD </div>
+        <nav>
+            <a href="#inicio" class="active">Início</a>
+            <a href="#sobre">Sobre</a>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main id="inicio">S
+        <div class="content-box">
+            <span class="badge">Versão 1.21 Ativa</span>
+            <h2>Seja bem-vindo!<br>Você está em <span>casa</span>.</h2>
+            <p>Prepare sua picareta, junte seus blocos e defenda seu abrigo. Explore servidores, texturas e as últimas novidades sobre o maior jogo de blocos do mundo.</p>
+            <a href="#sobre" class="btn-craft">Ir para Sobre</a>
+        </div>
+
+        <div class="image-box">
+            <div class="card">
+                <!-- Cenário procedural gerado via CSS puro -->
+                <div class="minecraft-art"></div>
+                <div class="card-caption">
+                    <p class="caption-tag">■ MUNDO GERADO</p>
+                    <p class="caption-text">Bioma offline carregado com sucesso.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 CraftWorld. Não olhe diretamente para os Endermen.</p>
+    </footer>
+
 </body>
 </html>
